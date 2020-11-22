@@ -50,7 +50,7 @@ function clearListEl() {
 
 function renderPhotoCard(photos) {
   if (photos.length !== 0) {
-    console.log(photos);
+    //console.log(photos);
     photos.map((photo) => {
       const newPhoto = document.createElement("li");
       newPhoto.innerHTML = photoCard(photo);
