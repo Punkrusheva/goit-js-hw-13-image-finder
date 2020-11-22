@@ -19,30 +19,24 @@ const apiService = new ApiService();
 
 refs.inputEl.addEventListener('input', debounce(onInputSearch, 1000));
 
-loadMoreBtn.refs.button.addEventListener('click', fetchPhotos);
+loadMoreBtn.refs.button.addEventListener('click', onMorePhotosButtonLoad);
 
 function onInputSearch(e) {
   e.preventDefault();
   apiService.searchQuery = refs.inputEl.value.trim();
   if (apiService.searchQuery !== '') {
-    console.log(apiService.searchQuery);
-    /*apiService.fetchPhotos()
-      .then(refs.listEl.innerHTML = '')
-          .catch(onFetchError)
-      .finally(() => { refs.inputEl.value === '' })
-      */
+   // console.log(apiService.searchQuery);
     loadMoreBtn.show();
     apiService.resetPage();
     clearListEl();
-    console.log(fetchPhotos());
-    fetchPhotos();
+    onMorePhotosButtonLoad();
   } else {
     clearListEl();
     loadMoreBtn.hide();
   }
 };
 
-function fetchPhotos() {
+function onMorePhotosButtonLoad() {
   loadMoreBtn.disable();
   apiService.fetchPhotos()
     .then(photos => {renderPhotoCard(photos.hits);
