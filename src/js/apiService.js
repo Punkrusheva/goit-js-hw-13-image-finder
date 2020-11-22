@@ -1,5 +1,3 @@
-/*Есть файл apiService.js с дефолтным экспортом объекта отвечающего за логику HTTP-запросов к API */
-
 const MY_KEY = '19150755-18ebc4fb910ab3d1add5e1d5a';
 const API_URL = 'https://pixabay.com/api';
 
