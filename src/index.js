@@ -50,9 +50,20 @@ function onMorePhotosButtonLoad() {
         click();
         return;
       }
-      else { loadMoreBtn.enable(); }
+      else { loadMoreBtn.enable(); onScrollTo();}
     })
     .catch(error => console.log(error)) 
+}
+
+function onScrollTo() {
+    const value = document.body.clientHeight;
+     setTimeout(() => {
+      window.scrollTo({
+        top: value,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }, 500);
 }
 
 function clearListEl() {
