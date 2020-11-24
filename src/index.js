@@ -7,7 +7,8 @@ import "@pnotify/core/dist/PNotify.css";
 import "@pnotify/core/dist/BrightTheme.css";
 import "@pnotify/confirm/dist/PNotifyConfirm.css";
 import LoadMoreBtn from './js/components/load-more-btn';
-//import * as basicLightbox from 'basiclightbox';
+import * as basicLightbox from 'basiclightbox';
+import '../node_modules/basiclightbox/dist/basicLightbox.min.css';
 
 const debounce = require('lodash.debounce');
 const refs = getRefs();
@@ -39,9 +40,19 @@ function onInputSearch(e) {
 function onMorePhotosButtonLoad() {
   loadMoreBtn.disable();
   apiService.fetchPhotos()
-    .then(photos => {renderPhotoCard(photos.hits);
-    loadMoreBtn.enable();
-  });
+    .then(photos => {
+        renderPhotoCard(photos.hits);
+      if (photos.hits.length !== 12) {  
+      loadMoreBtn.hide();
+      } if (photos.hits.length === 0) {
+        console.log('пусто!');
+        loadMoreBtn.hide();
+        click();
+        return;
+      }
+      else { loadMoreBtn.enable(); }
+    })
+    .catch(error => console.log(error)) 
 }
 
 function clearListEl() {
@@ -55,13 +66,14 @@ function renderPhotoCard(photos) {
       const newPhoto = document.createElement("li");
       newPhoto.innerHTML = photoCard(photo);
       refs.listEl.appendChild(newPhoto).classList.add('gallery-item');
-      /*refs.listEl.appendChild(newPhoto).onclick = () => {basicLightbox.create(`<img width="auto" height="auto" src="${photo.largeImageURL}">`).show()};*/
+      refs.listEl.appendChild(newPhoto).onclick = () => {basicLightbox.create(`<img width="auto" height="auto" src="${photo.largeImageURL}">`).show()};
     });
     } else click()
    }
 
 function onFetchError(error) {
-            clickError();
+  clickError();
+  console.log(error);
         }
 
 function click() {
